@@ -16,8 +16,8 @@ int main(){
   while(1){
     
     display_grid(grid, SIZE, SIZE);
-    update_grid(grid, SIZE, SIZE, snake);
-    sleep(1);
+    update_grid(grid, SIZE, SIZE, &snake);
+    usleep(500 * 1000);
   }
   return 0;
 }
