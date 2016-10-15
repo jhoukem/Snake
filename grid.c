@@ -10,18 +10,13 @@
 
 int food = 0;
 
-int ** init_grid(int l_size, int c_size, llist snake)
+int ** init_grid(int l_size, int c_size)
 {
   int i;
   int ** grid = calloc(l_size, sizeof(*grid));
   
   for (i = 0; i < l_size; i++){
     grid[i] = calloc(c_size, sizeof(**grid));
-  }
-
-  while(snake != NULL){
-    grid[snake->y][snake->x] = snake->val;
-    snake = snake->next;
   }
   
   return grid;
@@ -39,7 +34,7 @@ void pop_food(int ** grid, int l_size, int c_size){
   srand(time(NULL));
 
   do {
-    x = 4;//rand() % c_size;
+    x = rand() % c_size;
     y = rand() % l_size;
   }
   while(grid[y][x] != SOL);
@@ -49,25 +44,24 @@ void pop_food(int ** grid, int l_size, int c_size){
   
 }
 
-int update_grid(int ** grid, int l_size, int c_size, llist * snake)
+int update_grid(int ** grid, int l_size, int c_size, llist * snake, int input[2])
 {
-  display(*snake);
+  // display(*snake);
   int next_x, next_y, x_input, y_input;
 
-  x_input = 0;
-  y_input = -1;
+  x_input = input[0];
+  y_input = input[1];
     
   next_x = get_real_int((*snake)->x + x_input, c_size);
   next_y = get_real_int((*snake)->y + y_input, l_size);
   
   int destination = grid[next_y][next_x];
-  printf("dest = %d\n", destination);
+  // printf("dest = %d\n", destination);
   switch(destination){
   case BODY: return -1; // The snake has collide;
   case APPLE:
-    grid[(*snake)->y][(*snake)->x] = BODY;
-    *snake = add_to_head(*snake, next_x, next_y);
-    grid[(*snake)->y][(*snake)->x] = (*snake)->val;
+    *snake = add_to_head(*snake, next_x, next_y, grid);
+    food--;
     break;
   default:
      *snake = move_last_to_head(*snake, next_x, next_y, grid);

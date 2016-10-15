@@ -11,9 +11,9 @@ struct element
 typedef element* llist;
 
 void display(llist list);
-llist init_snake(int l_size, int c_size);
-llist add_to_head(llist list, int x, int y);
-llist add_to_tail(llist list, int x, int y);
+llist init_snake(int l_size, int c_size, int ** grid);
+llist add_to_head(llist list, int x, int y, int ** grid);
+llist add_to_tail(llist list, int x, int y, int ** grid);
 llist move_last_to_head(llist list, int x, int y, int ** grid);
 
 #endif

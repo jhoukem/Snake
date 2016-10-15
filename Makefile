@@ -4,7 +4,7 @@
 .SUFFIXES:
 # définition des variables
 CC = gcc
-CFLAGS = -W -Wall
+CFLAGS = -W -Wall -lpthread
 
 # Le nom de l’exécutable à fabriquer
 EXE=snake

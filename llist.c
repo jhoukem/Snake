@@ -7,7 +7,7 @@
 #define BODY 2
 #define APPLE 3
 
-llist init_snake(int l_size, int c_size)
+llist init_snake(int l_size, int c_size, int ** grid)
 {
   int i;
   element *snake = malloc(sizeof(element));
@@ -15,10 +15,10 @@ llist init_snake(int l_size, int c_size)
   snake->next = NULL;
   snake->x = c_size/2;
   snake->y= l_size/2;
-
+  grid[snake->y][snake->x] = snake->val;
   
   for(i = 1; i <= 3; i++){
-    add_to_tail(snake, snake->x - i, snake->y);
+    add_to_tail(snake, snake->x - i, snake->y, grid);
    }
     
   return snake;
@@ -35,14 +35,18 @@ void display(llist list){
   
 }
 
-llist add_to_head(llist list, int x, int y)
+llist add_to_head(llist snake, int x, int y, int ** grid)
 {
+
   element *new = malloc(sizeof(element));
   new->val = HEAD;
-  new->next = list;
+  new->next = snake;
   new->x = x;
   new->y = y;
   new->next->val = BODY;
+  
+  grid[snake->y][snake->x] = snake->val;
+
   return new;
 }
 
@@ -55,7 +59,7 @@ llist move_last_to_head(llist snake, int x, int y, int ** grid)
   while(elem->next->next != NULL){
     elem = elem->next;
   }
-  // ??? elem->next;
+  
   // Save the last element.
   new_head = elem->next;
   // Remove the last element from the list and the grid
@@ -76,15 +80,18 @@ llist move_last_to_head(llist snake, int x, int y, int ** grid)
   return new_head;
 }
 
- llist add_to_tail(llist list, int x, int y)
+ llist add_to_tail(llist list, int x, int y, int ** grid)
 {
+   
   element* tmp;
   element *new = malloc(sizeof(element));
   new->val = BODY;
   new->x = x;
   new->y = y;
   new->next = NULL;
+  grid[new->y][new->x] = new->val;
 
+  
   if(list == NULL){
     return new;
   } 
