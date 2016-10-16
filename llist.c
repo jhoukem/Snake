@@ -1,11 +1,25 @@
 #include <stdlib.h>
-#include "llist.h"
 #include <stdio.h>
+#include "llist.h"
 
 #define SOL 0
 #define HEAD 1
 #define BODY 2
 #define APPLE 3
+
+
+void free_llist(llist snake)
+{
+  
+  element * elem;
+
+  while(snake != NULL){
+    elem = snake->next;
+    free(snake);
+    snake = elem;
+  }
+}
+
 
 llist init_snake(int l_size, int c_size, int ** grid)
 {

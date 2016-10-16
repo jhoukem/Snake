@@ -10,6 +10,16 @@
 
 int food = 0;
 
+void free_grid(int ** grid, int l_size)
+{
+  int i;
+  for(i = 0; i < l_size; i++){
+    free(grid[i]);
+  }
+  free(grid);
+}
+
+
 int ** init_grid(int l_size, int c_size)
 {
   int i;
@@ -24,8 +34,9 @@ int ** init_grid(int l_size, int c_size)
 
 int get_real_int(int x, int size)
 {
-  if(x < 0)
+  if(x < 0){
     return size -1;
+  }
   return x %size;
 }
 
@@ -89,9 +100,9 @@ void display_grid(int ** grid, int l_size, int c_size)
       } else if(grid[i][j] == APPLE){
 	printf("x");
       } else if(grid[i][j] == BODY){
-	printf("*");
+	printf("°");
       } else if(grid[i][j] == HEAD){
-	printf("O");
+	printf("0");
       }     
     }
     printf("\n");
