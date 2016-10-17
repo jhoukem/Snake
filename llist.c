@@ -7,7 +7,16 @@
 #define BODY 2
 #define APPLE 3
 
+int get_llist_size(llist list)
+{
+  int counter = 0;
 
+  while(list != NULL){
+    counter++;
+    list = list->next;
+  }
+  return counter;
+}
 void free_llist(llist snake)
 {
   

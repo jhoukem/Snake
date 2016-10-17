@@ -4,6 +4,7 @@
 #include <sys/time.h>
 #include <stdio.h>
 #include <pthread.h>
+#include "input.h"
 
 #define X 0
 #define Y 1
@@ -13,17 +14,27 @@
 #define DOWN 's'
 
 
+input_arg * init_input_arg()
+{
+  input_arg * arg = malloc(sizeof(struct input_arg));
+  arg->x = 1;
+  arg->y = 0;
+  arg->stop = 0;
+  sem_init(&arg->sem, 0, 1);
+  return arg;
+}
+
 void changemode(int dir)
 {
   static struct termios oldt, newt;
   
   if (dir == 1)
-  {
-    tcgetattr( STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~( ICANON | ECHO );
-    tcsetattr( STDIN_FILENO, TCSANOW, &newt);
-  }else{
+    {
+      tcgetattr( STDIN_FILENO, &oldt);
+      newt = oldt;
+      newt.c_lflag &= ~( ICANON | ECHO );
+      tcsetattr( STDIN_FILENO, TCSANOW, &newt);
+    }else{
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt);
   }
 }
@@ -48,34 +59,38 @@ int kbhit (void)
 
 void * handle_input(void * arg){
   
-  int * input = (int *) arg;
+  input_arg * input_arg = (struct input_arg *) arg;
+
   changemode(1);
 
-  while(!input[2]){
+  while(!input_arg->stop){
     
     if(kbhit()){
-      switch(getchar()){
-      case UP:
-	if(input[Y] != 1){
-	  input[X] = 0; input[Y] = -1;
+      // allow only one input per update.
+      if(sem_trywait(&input_arg->sem) == 0){
+	switch(getchar()){
+	case UP:
+	  if(input_arg->y != 1){
+	    input_arg->x = 0; input_arg->y = -1;
+	  }
+	  break;
+	case LEFT:
+	  if(input_arg->x != 1){
+	    input_arg->x = -1; input_arg->y = 0;
+	  }
+	  break;
+	case DOWN:
+	  if(input_arg->y != -1){
+	    input_arg->x = 0; input_arg->y = 1;
+	  }
+	  break;
+	case RIGHT:
+	  if(input_arg->x != -1){
+	    input_arg->x = 1; input_arg->y = 0;
+	  }
+	  break;
+	default: break;
 	}
-	break;
-      case LEFT:
-	if(input[X]!= 1){
-	  input[X] = -1; input[Y] = 0;
-	}
-	break;
-      case DOWN:
-	if(input[Y] != -1){
-	  input[X] = 0; input[Y] = 1;
-	}
-	break;
-      case RIGHT:
-	if(input[X] != -1){
-	  input[X] = 1; input[Y] = 0;
-	}
-	break;
-      default: break;
       }
     }
   }
