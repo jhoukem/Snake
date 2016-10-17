@@ -57,14 +57,16 @@ int main(int argc, char * argv[]){
   
   while(1){  
 
-    if(update_grid(grid, l_size, c_size, &snake, input) < 0)
+    if(update_grid(grid, l_size, c_size, &snake, input) < 0){
+      display_grid(grid, l_size, c_size);
       break;
+    }
      display_grid(grid, l_size, c_size);
      usleep(update_time * 1000);
   }
-
+  
   // Stop the thread.
-  input[3] = 1;
+  input[2] = 1;
   
   if(pthread_join(input_handling, NULL)){
     perror("pthread_join");

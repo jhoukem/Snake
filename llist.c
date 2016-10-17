@@ -58,9 +58,11 @@ llist add_to_head(llist snake, int x, int y, int ** grid)
   new->x = x;
   new->y = y;
   new->next->val = BODY;
-  
-  grid[snake->y][snake->x] = snake->val;
 
+  grid[new->y][new->x] = new->val;
+  grid[snake->y][snake->x] = snake->val;
+  
+  
   return new;
 }
 

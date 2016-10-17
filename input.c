@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <pthread.h>
 
+#define X 0
+#define Y 1
+#define UP 'z'
+#define LEFT 'q'
+#define RIGHT 'd'
+#define DOWN 's'
+
+
 void changemode(int dir)
 {
   static struct termios oldt, newt;
@@ -47,24 +55,24 @@ void * handle_input(void * arg){
     
     if(kbhit()){
       switch(getchar()){
-      case 'z':
-	if(input[1] != 1){
-	  input[0] = 0; input[1] = -1;
+      case UP:
+	if(input[Y] != 1){
+	  input[X] = 0; input[Y] = -1;
 	}
 	break;
-      case 'q':
-	if(input[0]!= 1){
-	  input[0] = -1; input[1] = 0;
+      case LEFT:
+	if(input[X]!= 1){
+	  input[X] = -1; input[Y] = 0;
 	}
 	break;
-      case 's':
-	if(input[1] != -1){
-	  input[0] = 0; input[1] = 1;
+      case DOWN:
+	if(input[Y] != -1){
+	  input[X] = 0; input[Y] = 1;
 	}
 	break;
-      case 'd':
-	if(input[0] != -1){
-	  input[0] = 1; input[1] = 0;
+      case RIGHT:
+	if(input[X] != -1){
+	  input[X] = 1; input[Y] = 0;
 	}
 	break;
       default: break;
