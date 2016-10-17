@@ -19,8 +19,6 @@
 #include "llist.h"
 #include "input.h"
 
-
-
 int main(int argc, char * argv[]){
 
   int update_time;
@@ -58,13 +56,12 @@ int main(int argc, char * argv[]){
   
   
   while(1){  
-
-     if(update_grid(grid, l_size, c_size, &snake, input_arg) < 0){
-      display_grid(grid, l_size, c_size);
+    clear_screen();
+    if(update_grid(grid, l_size, c_size, &snake, input_arg) < 0){
       break;
-      }
-     display_grid(grid, l_size, c_size);
-     usleep(update_time * 1000);
+    }
+    display_grid(grid, l_size, c_size);
+    usleep(update_time * 1000);
   }
   
   // Stop the thread.

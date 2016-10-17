@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <unistd.h>
 #include <stdio.h>
 #include <time.h>
 #include "llist.h"
@@ -116,5 +117,11 @@ void display_grid(const int ** grid, int l_size, int c_size)
     printf("\n");
   } 
   printf("\n"); 
+}
+
+void clear_screen()
+{
+  const char* CLEAR_SCREE_ANSI = "\e[1;1H\e[2J";
+  write(STDOUT_FILENO,CLEAR_SCREE_ANSI, 11);
 }
 
