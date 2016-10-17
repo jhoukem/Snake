@@ -12,7 +12,7 @@ struct input_arg
 };
 
 int kbhit(void);
-input_arg * init_input_arg();
+void init_input_arg(input_arg ** arg);
 void * handle_input(void * arg);
 void changemode(int dir);
 #endif

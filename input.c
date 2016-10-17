@@ -14,14 +14,13 @@
 #define DOWN 's'
 
 
-input_arg * init_input_arg()
+void init_input_arg(input_arg ** arg)
 {
-  input_arg * arg = malloc(sizeof(struct input_arg));
-  arg->x = 1;
-  arg->y = 0;
-  arg->stop = 0;
-  sem_init(&arg->sem, 0, 1);
-  return arg;
+  *arg = (input_arg*) malloc(sizeof(input_arg));
+  (*arg)->x = 1;
+  (*arg)->y = 0;
+  (*arg)->stop = 0;
+  sem_init(&(*arg)->sem, 0, 1);
 }
 
 void changemode(int dir)

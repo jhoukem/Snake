@@ -72,8 +72,7 @@ int update_grid(int ** grid, int l_size, int c_size, llist * snake, input_arg * 
   int destination = grid[next_y][next_x];
   // printf("dest = %d\n", destination);
   switch(destination){
-  case BODY:// printf("hit case [%d][%d]\n with x_i=%d y_i=%d\n", next_y, next_x, x_input, y_input);
-    return -1; // The snake has collide;
+  case BODY: return -1;// The snake has collide
   case APPLE:   
     *snake = add_to_head(*snake, next_x, next_y, grid);
     food--;
