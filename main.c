@@ -18,6 +18,7 @@
 #include "grid.h"
 #include "llist.h"
 #include "input.h"
+#include "signal.h"
 
 int main(int argc, char * argv[]){
 
@@ -30,7 +31,7 @@ int main(int argc, char * argv[]){
   update_time = 100;  
   input_arg = NULL;
   init_input_arg(&input_arg);
-  
+  set_handler();
   if(argc < 2){
     printf("Bad usage. %s [grid_size] or %s [ligne_size] [column_size] or %s [ligne_size][column_size][update_time] (in milisecond)\n",
 	   argv[0], argv[0], argv[0]);

@@ -12,7 +12,7 @@ EXE=snake
 # all
 all: $(EXE)
 
-$(EXE): grid.o llist.o main.o input.o
+$(EXE): grid.o llist.o main.o input.o signal.o
 	 $(CC) $^ $(CFLAGS) -o $@
 
 %.o: %.c
