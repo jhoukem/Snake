@@ -57,7 +57,7 @@ void pop_food(int ** grid, int l_size, int c_size){
   
 }
 
-int update_grid(int ** grid, int l_size, int c_size, llist * snake, input_arg * input_arg)
+int update_grid(int ** grid, int l_size, int c_size, llist * snake, int *snake_size, input_arg * input_arg)
 {
   // display(*snake);
   int next_x, next_y, x_input, y_input, sem_value;
@@ -76,6 +76,11 @@ int update_grid(int ** grid, int l_size, int c_size, llist * snake, input_arg * 
   case APPLE:   
     *snake = add_to_head(*snake, next_x, next_y, grid);
     food--;
+    (*snake_size)++;
+    // If the snake fill all the grid.
+    if(*snake_size == (l_size * c_size - 1)){
+      return 1;
+    }
     break;
   default:
      *snake = move_last_to_head(*snake, next_x, next_y, grid); 

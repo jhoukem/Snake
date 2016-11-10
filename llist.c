@@ -6,6 +6,7 @@
 #define HEAD 1
 #define BODY 2
 #define APPLE 3
+#define SNAKE_SIZE_BEGIN 3
 
 int get_llist_size(llist list)
 {
@@ -40,7 +41,7 @@ llist init_snake(int l_size, int c_size, int ** grid)
   snake->y= l_size/2;
   grid[snake->y][snake->x] = snake->val;
   
-  for(i = 1; i <= 3; i++){
+  for(i = 1; i <= SNAKE_SIZE_BEGIN; i++){
     add_to_tail(snake, snake->x - i, snake->y, grid);
    }
     

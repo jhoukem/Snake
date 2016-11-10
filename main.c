@@ -20,10 +20,11 @@
 #include "input.h"
 #include "signal.h"
 
+#define SNAKE_SIZE_BEGIN 3
+
 int main(int argc, char * argv[]){
 
-  int update_time;
-  int l_size, c_size;  
+  int l_size, c_size, snake_size, update_time, status;
   int ** grid;
   llist snake;
   input_arg * input_arg = NULL;
@@ -52,22 +53,23 @@ int main(int argc, char * argv[]){
   }
   grid = init_grid(l_size, c_size);
   snake = init_snake(l_size, c_size, grid);
-  
-  
+  snake_size = SNAKE_SIZE_BEGIN;
+  status = 0;
+
   if(pthread_create(&input_handling, NULL, handle_input, (void *) input_arg)){
     perror("pthread_create");
     exit(1);
   }
   
   
-  while(1){  
+  while(!status){  
     
-    if(update_grid(grid, l_size, c_size, &snake, input_arg) < 0){
-      break;
-    }
+    status = update_grid(grid, l_size, c_size, &snake, &snake_size, input_arg);
     clear_screen();    
     display_grid(grid, l_size, c_size);
-    
+    if(status != 0){
+      break;
+    }
     usleep(update_time * 1000);
   }
   
@@ -78,8 +80,13 @@ int main(int argc, char * argv[]){
     perror("pthread_join");
     exit(1);
   }
-
-  printf("Your final length was %d\n", get_llist_size(snake));
+  
+  if(status > 0){
+    printf("Congratulation you ate all the apple!\n");
+  } else {
+    printf("Game Over\n");
+  }
+  printf("Your final length was %d\n", snake_size);
   free_grid(grid, l_size);
   free_llist(snake);
   
