@@ -2,6 +2,6 @@
 #define SIG
 
 void handler(int sig);
-void set_handler();
+void set_sig_handler();
 
 #endif

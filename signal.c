@@ -9,7 +9,7 @@ void handler(int sig)
   }
 }
 
-void set_handler()
+void set_sig_handler()
 {
   struct sigaction action;
   action.sa_handler = handler;
