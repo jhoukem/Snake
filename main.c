@@ -39,7 +39,7 @@ int is_integer(char *string)
 void handle_arg(int argc, char **argv, int *l_size, int *c_size, int *update_time)
 {
   char * options = "r:c:t:h";
-  char current_option;
+  int current_option;
   char help[512];
 
   snprintf(help, 512, "Usage\n %s [OPTIONS]\n\nThe following options are availables:\n"
